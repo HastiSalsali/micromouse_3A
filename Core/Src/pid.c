@@ -6,16 +6,23 @@
 #include "motors.h"
 #include "encoders.h"
 
+
 	int angleError = 0;
 	int oldAngleError = 0;
-	float distanceError = 0.4;
-	float oldDistanceError = 0.4;
-	float angleCorrection = 0;
-	float distanceCorrection =0;
-	float kPw = 0.1;
-	float kDw = 0;
-	float kPx = 1;
-	float kDx = 0;
+	float distanceError = 0;
+	float oldDistanceError = 0;
+	const float kPw = 0.1;
+	const float kDw = 0;
+	const float kPx = 1;
+	const float kDx = 0;
+
+	// These should get updated by your setPIDGoal functions
+	int goalAngle = 0;
+	int goalDistance = 0;
+
+	int errorCounter = 0;
+	const int MAX_ERROR_W = 20;
+	const int MAX_ERROR_X = 20;
 
 
 void resetPID() {
@@ -28,6 +35,12 @@ void resetPID() {
 	 *
 	 * You should additionally set your distance and error goal values (and your oldDistanceError and oldAngleError) to zero.
 	 */
+	angleError = 0;
+	oldAngleError = 0;
+	distanceError = 0;
+	oldDistanceError = 0;
+	goalAngle = 0;
+	goalDistance = 0;
 }
 
 void updatePID() {
@@ -49,35 +62,29 @@ void updatePID() {
 	 * right encoder counts. Refer to pseudocode example document on the google drive for some pointers.
 	 */
 
+	angleError = goalAngle - (getRightEncoderCounts() - getLeftEncoderCounts());
+	float angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
+	oldAngleError = angleError;
 
+	distanceError = goalDistance - ( (getRightEncoderCounts() + getLeftEncoderCounts()) / 2 );
+	float distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
+	oldDistanceError = distanceError;
 
+	if ((angleError <= MAX_ERROR_W) && (distanceError <= MAX_ERROR_W)){
+		errorCounter ++;
+	}
+	else {
+		errorCounter = 0;
+	}
 
-	//updatePID:
-		angleError = getRightEncoderCounts() - getLeftEncoderCounts();
-		angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
-		//angleCorrection = 0;
-		oldAngleError =  angleError;
-
-		distanceError = 0.4 ;
-		distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
-		oldDistanceError = distanceError;
-
-		setMotorLPWM (distanceCorrection + angleCorrection);
-		setMotorRPWM (distanceCorrection - angleCorrection);
-
-
-
+	setMotorLPWM (distanceCorrection + angleCorrection);
+	setMotorRPWM (distanceCorrection - angleCorrection);
 
 		/*
-		Since the goal of this assignment is to go forwards indefinitely, we just set the distanceError to
-		some arbitrary value. Since the error is fixed, distanceCorrection will always equal kPx times
-		whatever value you set distanceError to be. If you follow the suggested values and set kPx equal
-		to 1 and distance error to 0.4, your motors will have an effecitve base speed of 0.4. The derivative
-		term will always be zero since the distanceError doesn't change.
+		This should get you started, but you can improve your rat's PID performance by
+		incorporating some of the tips in the code templates. You are encouraged to experiment!
 
-		PD control is implemented in the angleCorrection line, and this adjustment is added (or subtracted)
-		from each motor, depending on what you treat as your positive angle direction. In the next assignment,
-		you will dynamically set distanceError based on encoder counts in order to move fixed distances.
+		You will need to add to this function to get it to work with PIDdone.
 		*/
 
 }
@@ -87,6 +94,8 @@ void setPIDGoalD(int16_t distance) {
 	 * For assignment 3.1: this function does not need to do anything.
 	 * For assignment 3.2: this function should set a variable that stores the goal distance.
 	 */
+	goalDistance = distance;
+
 }
 
 void setPIDGoalA(int16_t angle) {
@@ -94,6 +103,7 @@ void setPIDGoalA(int16_t angle) {
 	 * For assignment 3.1: this function does not need to do anything
 	 * For assignment 3.2: This function should set a variable that stores the goal angle.
 	 */
+	goalAngle = angle;
 }
 
 int8_t PIDdone(void) { // There is no bool type in C. True/False values are represented as 1 or 0.
@@ -103,6 +113,9 @@ int8_t PIDdone(void) { // There is no bool type in C. True/False values are repr
 	 * the error is zero (realistically, have it set the variable when the error is close to zero, not just exactly zero). You will have better results if you make
 	 * PIDdone() return true only if the error has been sufficiently close to zero for a certain number, say, 50, of SysTick calls in a row.
 	 */
+	if (errorCounter >= 50){
+		return 1;
+	}
 
-	return 1;
+	return 0;
 }

@@ -1,5 +1,5 @@
-../Core/Src/pid.c:21:6:resetPID	1
-../Core/Src/pid.c:33:6:updatePID	1
-../Core/Src/pid.c:85:6:setPIDGoalD	1
-../Core/Src/pid.c:92:6:setPIDGoalA	1
-../Core/Src/pid.c:99:8:PIDdone	1
+../Core/Src/pid.c:28:6:resetPID	1
+../Core/Src/pid.c:46:6:updatePID	3
+../Core/Src/pid.c:92:6:setPIDGoalD	1
+../Core/Src/pid.c:101:6:setPIDGoalA	1
+../Core/Src/pid.c:109:8:PIDdone	2

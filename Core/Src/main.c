@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "encoders.h"
 #include "motors.h"
+#include "controller.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -112,6 +113,7 @@ int main(void)
 
 //    setMotorRPWM(0.4);
 //    setMotorLPWM(0.4);
+    turn(1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -121,7 +123,7 @@ int main(void)
     /* USER CODE END WHILE */
 	   // added these for rotation testing assignment 3.2:
 	  	 left_counts = - ((int16_t) TIM1->CNT);
-	  	 right_counts = - ((int16_t) TIM2->CNT));
+	  	 right_counts = - ((int16_t) TIM2->CNT);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

@@ -7,7 +7,7 @@
 
 int16_t getRightEncoderCounts();
 int16_t getLeftEncoderCounts();
-int16_t getEncoderDiff();
+//int16_t getEncoderDiff();
 void resetEncoders();
 
 #endif /* INC_ENCODERS_H_ */
