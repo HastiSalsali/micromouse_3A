@@ -113,7 +113,9 @@ int main(void)
 
 //    setMotorRPWM(0.4);
 //    setMotorLPWM(0.4);
-    turn(1);
+   // HAL_Delay(500);
+    //turn(1);
+   // move(30);
   /* USER CODE END 2 */
 
   /* Infinite loop */

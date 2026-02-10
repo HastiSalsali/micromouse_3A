@@ -11,7 +11,7 @@
 	int oldAngleError = 0;
 	float distanceError = 0;
 	float oldDistanceError = 0;
-	const float kPw = 0.1;
+	const float kPw = 0.7;
 	const float kDw = 0;
 	const float kPx = 1;
 	const float kDx = 0;
@@ -62,11 +62,13 @@ void updatePID() {
 	 * right encoder counts. Refer to pseudocode example document on the google drive for some pointers.
 	 */
 
+
 	angleError = goalAngle - (getRightEncoderCounts() - getLeftEncoderCounts());
 	float angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
 	oldAngleError = angleError;
 
 	distanceError = goalDistance - ( (getRightEncoderCounts() + getLeftEncoderCounts()) / 2 );
+	//distanceError = 40;
 	float distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
 	oldDistanceError = distanceError;
 

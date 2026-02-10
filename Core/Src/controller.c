@@ -6,8 +6,8 @@
 #include "controller.h"
 #include "pid.h"
 
-const int CELL = 100;
-const int DEG90_CW = 450;
+const int COUNTERS_PER_CELL = 300;
+const int COUNTERS_PER_TURN_CW = 450;
 /*
  * We recommend you implement this function so that move(1) will move your rat 1 cell forward.
  */
@@ -21,7 +21,7 @@ void move(int8_t n) {
 	 *
 	 * You should also call resetPID before exiting this function so your rat is ready for the next instruction.
 	 */
-	setPIDGoalD(n * CELL);
+	setPIDGoalD(n * COUNTERS_PER_CELL);
 
 	while (!PIDdone())
 	{
@@ -45,7 +45,7 @@ void turn(int8_t n) {
 	 * You should also call resetPID before exiting this function so your rat is ready for the next instruction.
 	 */
 
-	setPIDGoalA(n * DEG90_CW);
+	setPIDGoalA(n * COUNTERS_PER_TURN_CW);
 
 		while (!PIDdone())
 		{
