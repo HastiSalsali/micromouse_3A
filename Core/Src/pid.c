@@ -16,6 +16,9 @@
 	const float kPx = 1;
 	const float kDx = 0;
 
+	int right_enc = 0;
+	int left_enc = 0;
+
 	// These should get updated by your setPIDGoal functions
 	int goalAngle = 0;
 	int goalDistance = 0;
@@ -62,12 +65,13 @@ void updatePID() {
 	 * right encoder counts. Refer to pseudocode example document on the google drive for some pointers.
 	 */
 
-
-	angleError = goalAngle - (getRightEncoderCounts() - getLeftEncoderCounts());
+	right_enc = getRightEncoderCounts();
+	left_enc = getLeftEncoderCounts();
+	angleError = goalAngle - (right_enc - left_enc);
 	float angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
 	oldAngleError = angleError;
 
-	distanceError = goalDistance - ( (getRightEncoderCounts() + getLeftEncoderCounts()) / 2 );
+	distanceError = goalDistance - ( (right_enc + left_enc) / 2 );
 	//distanceError = 40;
 	float distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
 	oldDistanceError = distanceError;
