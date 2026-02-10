@@ -28,7 +28,7 @@ void SysTickFunction(void) {
 			|| getRightEncoderCounts() < -31000 || getLeftEncoderCounts() < -31000) {
 		int16_t difference = getRightEncoderCounts() - getLeftEncoderCounts();
 		resetEncoders();
-		TIM2->CNT = (int16_t) difference; //set right encoder counts to difference
+		TIM2->CNT = (int16_t) - difference; //set right encoder counts to difference
 	}
 	updatePID();
 }
