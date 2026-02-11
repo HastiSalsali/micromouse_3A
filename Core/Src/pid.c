@@ -72,27 +72,27 @@ void updatePID() {
 	 */
 
 	right_enc = getRightEncoderCounts();
-	left_enc = getLeftEncoderCounts();
-	angleError = goalAngle - (right_enc - left_enc);
-	angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
-	oldAngleError = angleError;
+		left_enc = getLeftEncoderCounts();
+		angleError = goalAngle - (right_enc - left_enc);
+		angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
+		oldAngleError = angleError;
 
-	distanceError = goalDistance - ( (right_enc + left_enc) / 2 );
-	//distanceError = 40;
-	distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
-	oldDistanceError = distanceError;
+		distanceError = goalDistance - ( (right_enc + left_enc) / 2 );
+		//distanceError = 40;
+		distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
+		oldDistanceError = distanceError;
 
-	if ((angleError <= MAX_ERROR_W) && (distanceError <= MAX_ERROR_X)){
-		errorCounter ++;
-	}
-	else {
-		errorCounter = 0;
-	}
+		if ((abs(angleError) <= MAX_ERROR_W) && (abs(distanceError) <= MAX_ERROR_X)){
+			errorCounter ++;
+		}
+		else {
+			errorCounter = 0;
+		}
 
-	 LPWM = distanceCorrection + angleCorrection;
-	 RPWM = distanceCorrection - angleCorrection;
-	 setMotorLPWM (distanceCorrection - angleCorrection);
-	 setMotorRPWM (distanceCorrection + angleCorrection);
+	 LPWM = distanceCorrection - angleCorrection;
+	 RPWM = distanceCorrection + angleCorrection;
+	 setMotorLPWM (LPWM);
+	 setMotorRPWM (RPWM);
 
 		/*
 		This should get you started, but you can improve your rat's PID performance by
