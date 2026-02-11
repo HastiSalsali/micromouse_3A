@@ -4,6 +4,7 @@
 
 #include "motors.h"
 
+float checkPWM = 0;
 /*
  * This function should return PWM_MAX if pwm > PWM_MAX, -PWM_MAX if pwm < -PWM_MAX, and pwm otherwise.
  * ->> actually we are not doing this, we are returnign the abs value
@@ -38,6 +39,7 @@ float limitPWM(float pwm){
  * Implement this function to make the left wheel spin forwards when pwm is >= 0, and spin backwards when pwm < 0.
  */
 void setMotorLPWM(float pwm) {
+	mo
 	if (pwm >= 0){
 		TIM4->CCR4 = 0;
 		TIM4->CCR3 = (uint32_t) (limitPWM(pwm) * MAX_TIMER_COUNTS);
@@ -63,6 +65,7 @@ void setMotorLPWM(float pwm) {
  */
 // for our motor, 1 and two are swapped
 void setMotorRPWM(float pwm) {
+	checkPWM = limitPWM(pwm);
 	if (pwm >= 0){
 			TIM4->CCR1 = 0;
 			TIM4->CCR2 = (uint32_t) (limitPWM(pwm) * MAX_TIMER_COUNTS);

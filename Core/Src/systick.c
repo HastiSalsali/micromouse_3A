@@ -30,5 +30,5 @@ void SysTickFunction(void) {
 		resetEncoders();
 		TIM2->CNT = (int16_t) - difference; //set right encoder counts to difference
 	}
-	//unupdatePID();
+	updatePID();
 }

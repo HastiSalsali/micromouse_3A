@@ -91,8 +91,8 @@ void updatePID() {
 
 	 LPWM = distanceCorrection + angleCorrection;
 	 RPWM = distanceCorrection - angleCorrection;
-	setMotorLPWM (distanceCorrection - angleCorrection);
-	setMotorRPWM (distanceCorrection + angleCorrection);
+	 setMotorLPWM (distanceCorrection - angleCorrection);
+	 setMotorRPWM (distanceCorrection + angleCorrection);
 
 		/*
 		This should get you started, but you can improve your rat's PID performance by
