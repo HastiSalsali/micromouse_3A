@@ -11,7 +11,7 @@
 	int oldAngleError = 0;
 	float distanceError = 0;
 	float oldDistanceError = 0;
-	const float kPw = 0.7;
+	const float kPw = 1;
 	const float kDw = 0;
 	const float kPx = 1;
 	const float kDx = 0;
@@ -26,6 +26,12 @@
 	int errorCounter = 0;
 	const int MAX_ERROR_W = 20;
 	const int MAX_ERROR_X = 20;
+
+	float angleCorrection = 0;
+	float distanceCorrection = 0;
+	float LPWM = 0;
+	float RPWM = 0;
+
 
 
 void resetPID() {
@@ -68,12 +74,12 @@ void updatePID() {
 	right_enc = getRightEncoderCounts();
 	left_enc = getLeftEncoderCounts();
 	angleError = goalAngle - (right_enc - left_enc);
-	float angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
+	angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
 	oldAngleError = angleError;
 
 	distanceError = goalDistance - ( (right_enc + left_enc) / 2 );
 	//distanceError = 40;
-	float distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
+	distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
 	oldDistanceError = distanceError;
 
 	if ((angleError <= MAX_ERROR_W) && (distanceError <= MAX_ERROR_W)){
@@ -83,6 +89,8 @@ void updatePID() {
 		errorCounter = 0;
 	}
 
+	 LPWM = distanceCorrection + angleCorrection;
+	 RPWM = distanceCorrection - angleCorrection;
 	setMotorLPWM (distanceCorrection + angleCorrection);
 	setMotorRPWM (distanceCorrection - angleCorrection);
 

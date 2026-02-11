@@ -116,7 +116,9 @@ int main(void)
    // HAL_Delay(500);
     //turn(1);
     move(30);
+
   /* USER CODE END 2 */
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -124,8 +126,10 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	   // added these for rotation testing assignment 3.2:
-	  	 left_counts = - ((int16_t) TIM1->CNT);
-	  	 right_counts = - ((int16_t) TIM2->CNT);
+	  left_counts = getLeftEncoderCounts();
+	  right_counts = getRightEncoderCounts();
+//	  	 left_counts = - ((int16_t) TIM1->CNT);
+//	  	 right_counts = - ((int16_t) TIM2->CNT);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
