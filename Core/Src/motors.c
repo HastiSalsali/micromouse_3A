@@ -6,6 +6,7 @@
 
 /*
  * This function should return PWM_MAX if pwm > PWM_MAX, -PWM_MAX if pwm < -PWM_MAX, and pwm otherwise.
+ * ->> actually we are not doing this, we are returnign the abs value
  */
 float limitPWM(float pwm){
 	
@@ -15,11 +16,11 @@ float limitPWM(float pwm){
 	}
 	else if (pwm < -PWM_MAX)
 	{
-		return -PWM_MAX;
+		return  PWM_MAX;
 	}
 	else
 	{
-		return pwm;
+		return abs(pwm);
 	}
 }
 

@@ -11,9 +11,9 @@
 	int oldAngleError = 0;
 	float distanceError = 0;
 	float oldDistanceError = 0;
-	const float kPw = 1;
+	const float kPw = 0.1;
 	const float kDw = 0;
-	const float kPx = 1;
+	const float kPx = 0.3/1000;
 	const float kDx = 0;
 
 	int right_enc = 0;
@@ -82,7 +82,7 @@ void updatePID() {
 	distanceCorrection = kPx * distanceError + kDx * (distanceError - oldDistanceError);
 	oldDistanceError = distanceError;
 
-	if ((angleError <= MAX_ERROR_W) && (distanceError <= MAX_ERROR_W)){
+	if ((angleError <= MAX_ERROR_W) && (distanceError <= MAX_ERROR_X)){
 		errorCounter ++;
 	}
 	else {
@@ -91,8 +91,8 @@ void updatePID() {
 
 	 LPWM = distanceCorrection + angleCorrection;
 	 RPWM = distanceCorrection - angleCorrection;
-	setMotorLPWM (distanceCorrection + angleCorrection);
-	setMotorRPWM (distanceCorrection - angleCorrection);
+	setMotorLPWM (distanceCorrection - angleCorrection);
+	setMotorRPWM (distanceCorrection + angleCorrection);
 
 		/*
 		This should get you started, but you can improve your rat's PID performance by
