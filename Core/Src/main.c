@@ -123,7 +123,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  left_counts = getLeftEncoderCounts();
+	  right_counts = getRightEncoderCounts();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
