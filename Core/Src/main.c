@@ -24,6 +24,7 @@
 #include "encoders.h"
 #include "motors.h"
 #include "controller.h"
+#include "pid.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +52,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 	int16_t left_counts = 0;
 	int16_t right_counts = 0;
+	int timerMain = 0;
 
 /* USER CODE END PV */
 
@@ -113,9 +115,19 @@ int main(void)
 
 //    setMotorRPWM(0.9);
 //    setMotorLPWM(-0.8);
-   // HAL_Delay(500);
-    //turn(1);
-    move(-30);
+
+
+//    while ( timerMain <= 10000){
+//    	timerMain = getPidCount();
+//    };
+
+    //turn(-2);
+    timerMain=1;
+    turn(1);
+    timerMain = 6;
+    move(1);
+    timerMain++;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

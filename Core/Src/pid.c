@@ -13,7 +13,7 @@
 	float oldDistanceError = 0;
 	const float kPw = 0.1;
 	const float kDw = 0;
-	const float kPx = 0.3/1000;
+	const float kPx = 9.0/1000;
 	const float kDx = 0;
 
 	int right_enc = 0;
@@ -31,6 +31,9 @@
 	float distanceCorrection = 0;
 	float LPWM = 0;
 	float RPWM = 0;
+
+	//to check if updatePid is workign
+	int pidCount =  0;
 
 
 
@@ -50,6 +53,8 @@ void resetPID() {
 	oldDistanceError = 0;
 	goalAngle = 0;
 	goalDistance = 0;
+	errorCounter = 0;
+	resetEncoders();
 }
 
 void updatePID() {
@@ -72,7 +77,7 @@ void updatePID() {
 	 */
 
 	right_enc = getRightEncoderCounts();
-		left_enc = getLeftEncoderCounts();
+	left_enc = getLeftEncoderCounts();
 		angleError = goalAngle - (right_enc - left_enc);
 		angleCorrection = kPw * angleError + kDw * (angleError - oldAngleError);
 		oldAngleError = angleError;
@@ -93,6 +98,8 @@ void updatePID() {
 	 RPWM = distanceCorrection + angleCorrection;
 	 setMotorLPWM (LPWM);
 	 setMotorRPWM (RPWM);
+
+	 pidCount++;
 
 		/*
 		This should get you started, but you can improve your rat's PID performance by
@@ -132,4 +139,8 @@ int8_t PIDdone(void) { // There is no bool type in C. True/False values are repr
 	}
 
 	return 0;
+}
+
+int getPidCount(){
+	return pidCount;
 }

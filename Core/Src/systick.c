@@ -6,6 +6,7 @@
 #include "pid.h"
 #include "encoders.h"
 
+int sysCount = 0;
 void SysTickFunction(void) {
 	/*
 	 * Anything in this function body will be executed every millisecond.
@@ -31,4 +32,7 @@ void SysTickFunction(void) {
 		TIM2->CNT = (int16_t) - difference; //set right encoder counts to difference
 	}
 	updatePID();
+	sysCount ++;
 }
+
+

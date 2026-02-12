@@ -11,6 +11,9 @@ const int COUNTERS_PER_TURN_CW = 450;
 /*
  * We recommend you implement this function so that move(1) will move your rat 1 cell forward.
  */
+int moveCount = 0;
+int turnCount = 0;
+
 void move(int8_t n) {
 	/*
 	 * For assignment 3.1: Don't worry about implementing this yet
@@ -25,6 +28,7 @@ void move(int8_t n) {
 
 	while (!PIDdone())
 	{
+		moveCount++;
 	}
 
 	resetPID();
@@ -49,6 +53,7 @@ void turn(int8_t n) {
 
 		while (!PIDdone())
 		{
+			turnCount++;
 		}
 
 		resetPID();
